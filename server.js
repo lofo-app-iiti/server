@@ -16,6 +16,9 @@ mongoose.connect(process.env.MONGO_URI)
 //bodyParser middleware 
 app.use(express.json());
 
+//CORS
+app.use(require('cors'))
+
 //API
 app.use('/api', require('./API/api'));
 
