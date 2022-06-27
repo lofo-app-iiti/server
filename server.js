@@ -18,9 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use(express.json());
 
 //CORS
-app.use(cors({
-    origin: "http://localhost:3000"
-}))
+app.use(cors())
 
 //API
 app.use('/api', require('./API/api'));
