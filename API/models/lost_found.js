@@ -42,6 +42,6 @@ const LostFoundSchema = new schema({
 });
 
 
-const LostFoundModel = mongoose.model('LostFound', LostFoundSchema);
+const LostFoundModel = mongoose.model('lostfounds', LostFoundSchema);
 
 module.exports = LostFoundModel;

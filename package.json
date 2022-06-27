@@ -1,26 +1,22 @@
 {
-    "name": "4sale",
+    "name": "lofo-server",
     "version": "1.0.0",
-    "description": "Buying and selling website",
+    "description": "API for Lost and Found Applications",
     "main": "server.js",
     "scripts": {
-        "client-install": "npm install --prefix client",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "server": "nodemon server.js",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-        "client": "npm start --prefix client",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "nodemon server.js"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Jaisxixi/4Sale.git"
+        "url": "git+https://github.com/LoFo-IITI/LoFo-server.git"
     },
-    "author": "Arush_Kanishka_Jaisurya_Suman",
+    "author": "Jaisurya",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/Jaisxixi/4Sale/issues"
+        "url": "https://github.com/LoFo-IITI/LoFo-server/issues"
     },
-    "homepage": "https://github.com/Jaisxixi/4Sale#readme",
+    "homepage": "https://github.com/LoFo-IITI/LoFo-server#readme",
     "dependencies": {
         "cloudinary": "^1.29.0",
         "datauri": "^4.1.0",
@@ -33,7 +29,6 @@
         "socket.io": "^4.4.1"
     },
     "devDependencies": {
-        "concurrently": "^7.0.0",
         "nodemon": "^2.0.15"
     }
 }

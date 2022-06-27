@@ -1,9 +1,9 @@
 const express = require('express');
 const route = express.Router();
 const { OAuth2Client } = require('google-auth-library');
-const User = require('../db/models').userModel;
-const Item = require('../db/models').itemModel;
-const genToken = require('../config/auth').genToken;
+const User = require('../models/user')
+const Item = require('../models/item')
+const { genToken } = require('../middleware/auth');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -37,7 +37,7 @@ route.post('/', (req, res, next) => {
     };
 
     //Main function
-    client.verifyIdToken({ idToken: googleToken, audience: process.env.GOOGLE_CLIENT_ID})
+    client.verifyIdToken({ idToken: googleToken, audience: process.env.GOOGLE_CLIENT_ID })
         .then(res => {
             const { email_verified, name, email } = res.payload;
             if (email_verified) {

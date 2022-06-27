@@ -2,8 +2,8 @@
 const mongoose = require('mongoose')
 const express = require('express');
 const route = express.Router();
-const User = require('../db/models').userModel;
-const Item = require('../db/models').itemModel;
+const User = require('../models/user')
+const Item = require('../models/item')
 
 //API handlers
 //--------------------------------------------------------------------------//
