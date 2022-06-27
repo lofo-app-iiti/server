@@ -3,10 +3,10 @@ const mongoose = require('mongoose')
 const express = require('express');
 const route = express.Router();
 const fileUpload = require('express-fileupload');
-const LostFound = require('../db/models').LostFoundModel;
-const User = require('../db/models').userModel;
-const authToken = require('../config/auth').authToken;
-const { uploadToCloudinary, parseImage, removeFromCloudinary } = require('../config/cloudinary-config')
+const LostFound = require('../models/lost_found');
+const User = require('../models/user')
+const { authToken } = require('../middleware/auth')
+const { uploadToCloudinary, parseImage, removeFromCloudinary } = require('../../config/cloudinary-config')
 
 //API handlers
 //GET Handlers:      

@@ -1,7 +1,7 @@
 //Exporting individual route modules
 const express = require('express');
 const Routing = express();
-const authToken = require('./config/auth').authToken;
+const authToken = require('./middleware/auth').authToken;
 
 
 Routing.use('/items', require('./routes/item'));
