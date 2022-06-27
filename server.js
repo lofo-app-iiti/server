@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
+require('dotenv').config()
 
 //Connection to DB
 mongoose.connect(process.env.MONGO_URI)
