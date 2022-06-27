@@ -1,9 +1,9 @@
-require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
-
+const cors = require('cors')
+require('dotenv').config();
 
 //Connection to DB
 mongoose.connect(process.env.MONGO_URI)
@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 //bodyParser middleware 
 app.use(express.json());
-
+app.use(cors())
 
 //API
 app.use('/api', require('./api_routes'));
