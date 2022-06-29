@@ -149,7 +149,7 @@ route.put('/buy/:id', authToken, (req, res, next) => {
                                 req.body.notification.read = false;
                                 req.body.notification._id = new mongoose.Types.ObjectId();
 
-                                const io = require('../config/socket').get();
+                                const io = require('../../config/socket').get();
                                 io.to(item.userEmail).emit('notification', req.body.notification)
 
                                 User.updateOne({ email: item.userEmail },
