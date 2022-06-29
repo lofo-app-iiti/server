@@ -82,7 +82,7 @@ route.post('/', authToken, parseImage, (req, res, next) => {
 
 //--------------------------------------------------------------------------//
 //Send a Claim Notification 
-route.put('/notify/:id',authToken, (req, res, next) => {
+route.put('/notify/:id', authToken, (req, res, next) => {
     LostFound.findById(req.params.id)
         .then((item) => {
             User.findOne({
@@ -106,7 +106,7 @@ route.put('/notify/:id',authToken, (req, res, next) => {
                                 req.body.notification.read = false;
                                 req.body.notification._id = new mongoose.Types.ObjectId();
 
-                                const io = require('../config/socket').get();
+                                const io = require('../../config/socket').get();
                                 io.to(item.userEmail).emit('notification', req.body.notification)
 
                                 User.updateOne({ email: item.userEmail },
@@ -131,7 +131,9 @@ route.put('/notify/:id',authToken, (req, res, next) => {
                 })
                 .catch(next);
         })
-        .catch(next);
+        .catch(e => {
+            res.send({ message: e })
+        });
 })
 
 
@@ -153,7 +155,7 @@ route.put('/notify/:id',authToken, (req, res, next) => {
 
 
 //Delete a posted item                              
-route.delete('/:id',authToken, (req, res, next) => {
+route.delete('/:id', authToken, (req, res, next) => {
     LostFound.findById(req.params.id)
         .select('images userEmail')
         .then(async item => {
