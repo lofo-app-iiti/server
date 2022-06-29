@@ -95,39 +95,37 @@ route.put('/notify/:id', authToken, (req, res, next) => {
                 }
             })
                 .then(user => {
-                    if (user != null) {
-                        res.status(200).send({ message: `Already notified ${item.userName}` });
-                    } else {
-                        User.findById(req.auth.id)
-                            .select('name')
-                            .then(user => {
-                                req.body.notification['userName'] = user.name
-                                req.body.notification['userEmail'] = req.auth.email
-                                req.body.notification.read = false;
-                                req.body.notification._id = new mongoose.Types.ObjectId();
 
-                                const io = require('../../config/socket').get();
-                                io.to(item.userEmail).emit('notification', req.body.notification)
+                    User.findById(req.auth.id)
+                        .select('name')
+                        .then(user => {
+                            req.body.notification['userName'] = user.name
+                            req.body.notification['userEmail'] = req.auth.email
+                            req.body.notification.read = false;
+                            req.body.notification._id = new mongoose.Types.ObjectId();
 
-                                User.updateOne({ email: item.userEmail },
-                                    { "$push": { "notifications": req.body.notification } },
-                                )
-                                    .then(() => {
-                                        LostFound.updateOne({ _id: req.params.id },
-                                            { $set: { claimed: true } }
-                                        )
-                                            .then(() => {
-                                                res.status(200).send({
-                                                    item,
-                                                    message: `Notified ${item.userName}`
-                                                });
-                                            })
-                                            .catch(next);
-                                    })
-                                    .catch(next);
-                            })
-                            .catch(next);
-                    }
+                            const io = require('../../config/socket').get();
+                            io.to(item.userEmail).emit('notification', req.body.notification)
+
+                            User.updateOne({ email: item.userEmail },
+                                { "$push": { "notifications": req.body.notification } },
+                            )
+                                .then(() => {
+                                    LostFound.updateOne({ _id: req.params.id },
+                                        { $set: { claimed: true } }
+                                    )
+                                        .then(() => {
+                                            res.status(200).send({
+                                                item,
+                                                message: `Notified ${item.userName}`
+                                            });
+                                        })
+                                        .catch(next);
+                                })
+                                .catch(next);
+                        })
+                        .catch(next);
+
                 })
                 .catch(next);
         })

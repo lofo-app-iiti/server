@@ -77,7 +77,7 @@ route.put('/approve/:userEmail', (req, res, next) => {
                         req.body.notification['read'] = false;
                         req.body.notification['_id'] = new mongoose.Types.ObjectId();
 
-                        const io = require('../config/socket').get();
+                        const io = require('../../config/socket').get();
                         io.to(req.params.userEmail).emit('notification', req.body.notification)
 
                         User.updateOne({ email: req.params.userEmail },
