@@ -46,36 +46,35 @@ route.get('/search', (req, res, next) => {
 route.use(fileUpload());
 //POST Handler:
 route.post('/', authToken, parseImage, (req, res, next) => {
+
     User.findById(req.auth.id)
         .select('name')
         .then(async user => {
-            try {
-                let itemBody = {
-                    title: req.body.title,
-                    description: req.body.description,
-                    userName: user.name,
-                    userEmail: req.auth.email,
-                    status: req.body.status
-                }
 
-                if (req.files) {
-                    let imageLinks = {};
-                    let uploadedUrl = await uploadToCloudinary(req.files.encodedUri[0])
-                    imageLinks = {
-                        url: uploadedUrl.url,
-                        public_id: uploadedUrl.public_id
-                    };
-                    itemBody['images'] = imageLinks
-                }
-
-                LostFound.create(itemBody)
-                    .then((item) => {
-                        res.status(201).send(item);
-                    })
-                    .catch(next);
-            } catch (err) {
-                next(err);
+            let itemBody = {
+                title: req.body.title,
+                description: req.body.description,
+                userName: user.name,
+                userEmail: req.auth.email,
+                status: req.body.status
             }
+
+            if (req.files) {
+                let imageLinks = {};
+                let uploadedUrl = await uploadToCloudinary(req.files.encodedUri[0])
+                imageLinks = {
+                    url: uploadedUrl.url,
+                    public_id: uploadedUrl.public_id
+                };
+                itemBody['images'] = imageLinks
+            }
+
+            LostFound.create(itemBody)
+                .then(item => {
+                    res.status(201).send(item);
+                    console.log(item)
+                })
+                .catch(err => console.log(err));
         })
 });
 

@@ -28,6 +28,11 @@ const itemSchema = new schema({
     categories: {
         type: [String]
     },
+    mobile: {
+        type: Number,
+        maximum: 9999999999,
+        default: null
+    },
     images: [{
         url: String,
         public_id: String

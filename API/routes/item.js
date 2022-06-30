@@ -105,6 +105,7 @@ route.post('/', authToken, parseImage, (req, res, next) => {
                 price: req.body.price,
                 userName: user.name,
                 userEmail: req.auth.email,
+                mobile: req.body.mobile,
                 categories: setCategories,
                 images: imageLinks
             }
