@@ -45,6 +45,10 @@ const userSchema = new schema({
         read: {
             type: Boolean,
             default: false
+        },
+        approved: {
+            type: Boolean,
+            default: false
         }
     }]
 });

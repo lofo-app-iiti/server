@@ -12,7 +12,7 @@ const { uploadToCloudinary, parseImage, removeFromCloudinary } = require('../../
 //GET Handlers:      
 //GET all items:
 route.get('/', (req, res, next) => {
-    Item.find({ sold: false })
+    Item.find()
         .sort({ date: 'desc' })
         .select('title price images sold categories')
         .then((item) => {
@@ -23,39 +23,9 @@ route.get('/', (req, res, next) => {
         });
 });
 
-//GET Items from Search Bar(name):                  
-route.get('/search', (req, res, next) => {
-    const { name } = req.query;
-    Item.find({
-        sold: false,
-        $or: [
-            { title: { $regex: name, $options: 'i' } },
-            { categories: { $regex: name, $options: 'i' } },
-            { description: { $regex: name, $options: 'i' } }
-        ]
-    })
-        .select('title price images sold')
-        .then((item) => {
-            res.send(item);
-        })
-        .catch(err => {
-            next();
-        });
-
-});
-
 
 
 //----------------------------------------------------//
-//GET Items from Filters:                           
-route.get('/filter', (req, res, next) => {
-    Item.find({ categories: req.query.categories, sold: false })
-        .select('title price images sold')
-        .then((item) => {
-            res.status(200).send(item);
-        })
-        .catch(next);
-});
 
 
 //GET Item details:                             

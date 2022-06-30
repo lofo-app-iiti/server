@@ -93,7 +93,10 @@ route.put('/approve/:userEmail', (req, res, next) => {
                         )
                             .then(() => {
                                 User.updateOne({ _id: req.auth.id },
-                                    { "$pull": { notifications: { itemId: req.body.notification.itemId, userEmail: { $ne: req.params.userEmail } } } }
+                                    { "$pull": { notifications: { itemId: req.body.notification.itemId, userEmail: { $ne: req.params.userEmail } } } },
+                                    {
+                                        $set: { approved: true }
+                                    }
                                 ).then(() => {
                                     User.findById(req.auth.id)
                                         .select('notifications')
