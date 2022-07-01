@@ -72,7 +72,6 @@ route.post('/', authToken, parseImage, (req, res, next) => {
             LostFound.create(itemBody)
                 .then(item => {
                     res.status(201).send(item);
-                    console.log(item)
                 })
                 .catch(err => console.log(err));
         })
