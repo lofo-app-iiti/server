@@ -105,7 +105,7 @@ route.put('/buy/:id', authToken, (req, res, next) => {
                     $elemMatch: {
                         message: req.body.notification.message,
                         userEmail: req.auth.email,
-                        itemTitle: item.title
+                        itemId: item.itemId
                     }
                 }
             })
@@ -141,7 +141,6 @@ route.put('/buy/:id', authToken, (req, res, next) => {
         })
         .catch(next);
 })
-
 
 
 //Edit a posted item                               

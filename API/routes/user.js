@@ -56,7 +56,7 @@ route.put('/approve/:userEmail', (req, res, next) => {
             $elemMatch: {
                 message: req.body.notification.message,
                 userEmail: req.auth.email,
-                itemTitle: req.body.notification.itemTitle
+                itemId: req.body.notification.itemId
             }
         }
     })
@@ -93,10 +93,7 @@ route.put('/approve/:userEmail', (req, res, next) => {
                         )
                             .then(() => {
                                 User.updateOne({ _id: req.auth.id },
-                                    { "$pull": { notifications: { itemId: req.body.notification.itemId, userEmail: { $ne: req.params.userEmail } } } },
-                                    {
-                                        $set: { approved: true }
-                                    }
+                                    { "$pull": { notifications: { itemId: req.body.notification.itemId, userEmail: { $ne: req.params.userEmail } } } }
                                 ).then(() => {
                                     User.findById(req.auth.id)
                                         .select('notifications')
@@ -118,7 +115,6 @@ route.put('/approve/:userEmail', (req, res, next) => {
         })
         .catch(next);
 })
-
 //Delete Notification
 route.delete('/notif/:item', (req, res, next) => {
     User.updateOne({ _id: req.auth.id },
