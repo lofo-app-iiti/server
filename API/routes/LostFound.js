@@ -48,7 +48,7 @@ route.use(fileUpload());
 route.post('/', authToken, parseImage, (req, res, next) => {
 
     User.findById(req.auth.id)
-        .select('name')
+        .select('name mobile')
         .then(async user => {
 
             let itemBody = {
@@ -56,6 +56,7 @@ route.post('/', authToken, parseImage, (req, res, next) => {
                 description: req.body.description,
                 userName: user.name,
                 userEmail: req.auth.email,
+                mobile: user.mobile ? user.mobile : null,
                 status: req.body.status
             }
 

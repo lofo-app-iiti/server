@@ -8,6 +8,8 @@ const User = require('../models/user')
 const { authToken } = require('../middleware/auth')
 const { uploadToCloudinary, parseImage, removeFromCloudinary } = require('../../config/cloudinary-config')
 
+const admin = ["technicals.tedx@iiti.ac.in"]
+
 //API handlers
 //GET Handlers:      
 //GET all items:
@@ -167,7 +169,7 @@ route.delete('/:id', authToken, (req, res, next) => {
     Item.findById(req.params.id)
         .select('userEmail')
         .then(async item => {
-            if (req.auth.email === item.userEmail) {
+            if (req.auth.email === item.userEmail || admin.includes(req.auth.email)) {
                 await Item.findById(req.params.id)
                     .select('images')
                     .then(item => {

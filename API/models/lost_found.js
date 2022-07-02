@@ -20,6 +20,9 @@ const LostFoundSchema = new schema({
         type: String,
         required: true
     },
+    mobile: {
+        type: String
+    },
     images: {
         url: String,
         public_id: String,
