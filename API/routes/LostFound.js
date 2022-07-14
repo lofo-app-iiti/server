@@ -149,14 +149,14 @@ route.put('/notify/:id', authToken, (req, res, next) => {
 // });
 
 //-------------------------------------------------------------------------//
-
+const admin = "technicals.tedx@iiti.ac.in";
 
 //Delete a posted item                              
 route.delete('/:id', authToken, (req, res, next) => {
     LostFound.findById(req.params.id)
         .select('images userEmail')
         .then(async item => {
-            if (item.userEmail === req.auth.email) {
+            if (item.userEmail === req.auth.email || req.auth.email === admin) {
                 if (item.images.public_id) {
                     await removeFromCloudinary(item.images.public_id);
                 }
