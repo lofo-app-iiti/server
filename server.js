@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(require('cors')())
 
 //API
+app.get('/', (req, res) => res.send("Welcome to the lofo server!"));
 app.use('/api', require('./API/api'));
 
 //Error middleWare
