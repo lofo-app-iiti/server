@@ -13,6 +13,11 @@ const userSchema = new schema({
         required: true,
         unique: true
     },
+    imageUrl : {
+        type : String,
+        unique : false,
+        default : ""
+    },
     favourites: [{
         type: schema.Types.ObjectId,
         ref: 'item'
