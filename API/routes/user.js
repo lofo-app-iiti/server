@@ -5,6 +5,41 @@ const route = express.Router();
 const User = require('../models/user')
 const Item = require('../models/item')
 
+route.get('/getUser', async (req, res) => {
+    
+    const email = req.auth.email
+
+    console.log("Get user called adsad ",email)
+    console.log("Returning correct")
+
+    try{
+        const user  = await User.findOne({email})
+        let user1 = { ...user._doc };
+        await Item.find({ _id: { $in: user.favourites } })
+            .select('price title images')
+            .sort({ date: 'desc' })
+            .then(items => {
+                user1.favourites = items
+            })
+            .catch(()=>{console.log("error1"); return res.status(403).json({message:"JWT Auth Failed"})});
+
+        await Item.find({ _id: { $in: user.ads } })
+            .select('price title images')
+            .sort({ date: 'desc' })
+            .then(items => {
+                user1.ads = items;
+            })
+            .catch(()=>{console.log("error2"); return res.status(403).json({message:"JWT Auth Failed"})});
+
+        console.log("no error")
+        return res.status(200).send({ user: user1});
+    }
+    catch(error){
+        console.log("error3 ",error);
+        return res.status(403).json({message:"JWT Auth Failed"})
+    }
+})
+
 //API handlers
 //--------------------------------------------------------------------------//
 //Get orders

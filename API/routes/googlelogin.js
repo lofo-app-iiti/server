@@ -9,8 +9,9 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 route.post('/', (req, res, next) => {
     const { googleToken } = req.body;
-    async function foundAndSend(user) {
-        let user1 = { ...user._doc };
+    
+    async function foundAndSend(user,imageUrl) {
+        let user1 = { ...user._doc , imageUrl : imageUrl };
         await Item.find({ _id: { $in: user.favourites } })
             .select('price title images')
             .sort({ date: 'desc' })
@@ -39,14 +40,16 @@ route.post('/', (req, res, next) => {
     //Main function
     client.verifyIdToken({ idToken: googleToken, audience: process.env.GOOGLE_CLIENT_ID })
         .then(res => {
-            const { email_verified, name, email } = res.payload;
+            const { email_verified, name, email , imageUrl } = res.payload;
+            console.log("verifying profile",imageUrl)
+
             if (email_verified) {
                 User.findOne({ email })
                     .then((user) => {
                         if (user) {
-                            foundAndSend(user);
+                            foundAndSend(user,imageUrl);
                         } else {
-                            User.create({ name, email })
+                            User.create({ name, email , imageUrl})
                                 .then(user => {
                                     createdAndSend(user);
                                 })
